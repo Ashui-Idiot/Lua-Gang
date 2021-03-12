@@ -69,14 +69,7 @@ client:on('messageCreate', function(message)
 	if message.content == ';hug' then
 		if state >= 1 then
 			print('state check done')
-			math.randomseed(os.time())
-			math.random(100)
-			if (math.random() > 1) then
-				message.channel:send('<(^-^<) Hug!')
-			end
-			if (math.random() < 1) then
-				message.channel:send('no you dont deserver a hug')
-			end
+			message.channel:send('<(^-^<) Hug!')
 		end
 	end
 end)
