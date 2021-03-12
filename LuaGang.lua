@@ -31,7 +31,7 @@ if state >= 1 then
 end
 
 client:on('messageCreate', function(message)
-	if message.content == ';hug' then
+	if message.content == ';help' then
 		if state >= 1 then
 			print('state check done')
 			message.channel:send('```bash\n"Welcome to the Lua Gang bot"\n"Commands"\n"Gives you a hug!"\n";update - displays the most recent update"\n";cf - Flips a coin"\n";help - Shows this menu"\n"One super secret command meant to test if the bot is on"\n";say (arg) - Not working yet, being troubleshooted"\n"Other info:"\n"Sometimes in the CF command it doesnt read a command so next time it does it it prints both, just use the command a couple times to fix it."\n Made by Many Foxes#7107```')
