@@ -272,6 +272,11 @@ client:on("messageCreate", function(message)
 									name = "Say",
 									value = ";say (args) - Says what is instructed to be said. Max length of 5000",
 									inline = true
+								},
+								{
+									name = "SoS",
+									value = ";soshelp - Info on the ;sos command and other commands.",
+									inline = false
 								}
 							},
 							footer = {
@@ -282,6 +287,54 @@ client:on("messageCreate", function(message)
 					}
 				else
 					message:reply('You are banned from using this bot. If you believe this is a mistake contact a admin')
+				end
+			end
+		end
+	end
+end)
+
+client:on("messageCreate", function(message)
+
+	local content = message.content
+	local author = message.author
+	if state >= 1 then
+		if content == ";soshelp" then
+			if message.author.id ~= ban then
+				if message.author.id ~= ban1 then
+					print(author)
+					message:reply {
+						embed = {
+							title = "SoS",
+							description = "A social experiment sort-of",
+							author = {
+								name = author.username,
+								icon_url = author.avatarURL
+							},
+							fields = { 
+								{
+									name = "Info",
+									value = "SoS is share or steal. You choose to share of steal using st for steal or sh for share. You actions effect the next player and the overall outcome",
+									inline = true
+								},
+								{
+									name = "SoS Command",
+									value = ";sos sh/st - Share or steal. Will tell outcome",
+									inline = false
+								},
+								{
+									name = "Coins",
+									value = ";coins - Displays coin amounts of bots and players",
+								inline = true
+								}
+							},
+							footer = {
+							text = "Made by Many Foxes#7107"
+							},
+							color = discordia.Color.fromRGB(171, 255, 25).value
+						}
+					}
+				else
+					message:reply('You are banned. If you believe this is a mistake contact a admin')
 				end
 			end
 		end
@@ -395,7 +448,7 @@ client:on('messageCreate', function(message)
 		if state >= 1 then
 			if message.author.id ~= ban then
 				if message.author.id ~= ban1 then
-					message.channel:send('```diff\nUpdates\n--Added ;say. Check ;help for more info\n--Added Roast. Check ;help for more info\n--Added ;bots command. Only for personal use mainly\n--Added hotline. Check ;help\n--Added ;lottery. Check ;help```')
+					message.channel:send('```diff\nUpdates\n--Added ;sos. Check ;soshelp for more info\n--Added Roast. Check ;help for more info\n--Added ;bots command. Only for personal use mainly\n--Added hotline. Check ;help\n--Added ;lottery. Check ;help```')
 				else
 					message:reply('You are banned from using the bot. Please contact Many Foxes#7107 if you think this is a mistake.')
 				end
@@ -454,6 +507,47 @@ client:on('messageCreate', function(message)
 				end
 			end
 		end
+	end
+end)
+
+last = 0
+coins = 0
+bot_coin = 0
+client:on('messageCreate', function(message)
+	if message.content:sub(1,4) == ';sos' then
+		if last == 0 then
+			if message.content:sub(6,8) == 'st' then
+				last = 1
+				message.channel:send('You won 3 coins, I won none. Remember, this effects the next players experience')
+				coins = coins +3
+			end
+			if message.content:sub(6,8) == 'sh' then
+				last = 0
+				message.channel:send('You won 2 coins, I won 2. Remember, this effects the next players experience')
+				coins = coins +2
+				bot_coin = bot_coin +2
+			end
+		end
+		if last == 1 then
+			if message.content:sub(6,8) == 'st' then
+				last = 1
+				message.channel:send('Neither of us one anything due to the last person stealing too. Remeber, this effects the next players experience')
+			end
+			if message.content:sub(6,8) == 'sh' then
+				last = 0
+				message.channel:send('The bot stole due to the last person stealing. The bot gains 3, you gain nothing')
+				bot_coin = bot_coin +3
+			end
+		end
+	end
+end)
+
+client:on('messageCreate', function(message)
+	if message.content == ';coins' then
+		message.channel:send('The bot has:')
+		message.channel:send(bot_coin)
+		message.channel:send('While the players have:')
+		message.channel:send(coins)
 	end
 end)
 
