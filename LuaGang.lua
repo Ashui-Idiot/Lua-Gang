@@ -63,7 +63,7 @@ client:on('messageCreate', function(message)
 			end
 		end
 		if message.author.id == adim1 then
-			if ban == message.content:sub(11,28) then
+			if ban == message.content:sub(11,28) then -ayo adam or however its spelled ghosty doesnt know how to code lol.
 				ban = 0
 				message.channel:send("Unbanned")
 			else
